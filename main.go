@@ -8,9 +8,8 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World!")
-
 	router := router.GenerateRouter()
 
+	fmt.Println("Running...")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
