@@ -32,5 +32,5 @@ var usersRoutes = []DefaultRoute{
 		Method:       http.MethodDelete,
 		Function:     func(w http.ResponseWriter, r *http.Request) {},
 		AuthRequired: false,
-	}
+	},
 }
