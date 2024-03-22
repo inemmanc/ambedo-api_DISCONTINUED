@@ -1,8 +1,14 @@
 package router
 
-import "github.com/gorilla/mux"
+import (
+	"ambedo-api/src/router/routes"
+
+	"github.com/gorilla/mux"
+)
 
 // GenerateRouter returns a router with all configured routes
 func GenerateRouter() *mux.Router {
-	return mux.NewRouter()
+	newRouterInstance := mux.NewRouter()
+
+	return routes.Configure(newRouterInstance)
 }
