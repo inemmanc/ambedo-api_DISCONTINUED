@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// DefaultRoute represent all API routes
+// DefaultRoute struct represents the Default API route
 type DefaultRoute struct {
 	URI          string
 	Method       string
