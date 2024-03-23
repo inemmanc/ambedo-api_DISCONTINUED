@@ -1,6 +1,7 @@
 package main
 
 import (
+	"ambedo-api/src/config"
 	"ambedo-api/src/router"
 	"fmt"
 	"log"
@@ -8,8 +9,10 @@ import (
 )
 
 func main() {
+	config.Load()
+	api_port := fmt.Sprintf(":%d", config.DefaultApiPort)
 	router := router.GenerateRouter()
 
-	fmt.Println("Running...")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	fmt.Println("ambedo-API is running on", api_port)
+	log.Fatal(http.ListenAndServe(api_port, router))
 }
