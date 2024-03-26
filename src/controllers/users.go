@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"ambedo-api/src/models"
+	"encoding/json"
+	"io"
 	"net/http"
 )
 
@@ -16,7 +19,18 @@ func FindUser(w http.ResponseWriter, r *http.Request) {
 
 // CreateUser creates a new user into the database
 func CreateUser(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("creating user func"))
+	requestBody, err := io.ReadAll(r.Body)
+	if err != nil {
+		// TEMP RESPONSENSE (REMOVE) ----
+		w.Write([]byte("Error"))
+	}
+
+	var user models.DefaultUser
+	if err := json.Unmarshal(requestBody, &user); err != nil {
+		// TEMP RESPONSENSE (REMOVE) ----
+		w.Write([]byte("Error unmarshal"))
+	}
+
 }
 
 // UpdateUser updates a specific user information in the database
