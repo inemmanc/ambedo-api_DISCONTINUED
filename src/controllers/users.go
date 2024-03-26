@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"ambedo-api/src/database"
 	"ambedo-api/src/models"
+	"ambedo-api/src/repositories"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -30,6 +32,15 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		// TEMP RESPONSE (REMOVE) ----
 		w.Write([]byte("Error unmarshal"))
 	}
+
+	db, err := database.Connect()
+	if err != nil {
+		// TEMP RESPONSE (REMOVE) ----
+		w.Write([]byte("Error database"))
+	}
+
+	repo := repositories.NewUserRepo(db)
+	repo.CreateUser(user)
 
 }
 
