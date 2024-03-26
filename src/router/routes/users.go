@@ -19,7 +19,7 @@ var usersRoutes = []DefaultRoute{
 		AuthRequired: false,
 	},
 	{
-		URI:          "/users/{userID}",
+		URI:          "/users",
 		Method:       http.MethodPost,
 		Function:     controllers.CreateUser,
 		AuthRequired: false,

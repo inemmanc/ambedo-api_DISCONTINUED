@@ -5,6 +5,7 @@ import (
 	"ambedo-api/src/models"
 	"ambedo-api/src/repositories"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -40,8 +41,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repo := repositories.NewUserRepo(db)
-	repo.CreateUser(user)
+	lastInsertID, err := repo.CreateUser(user)
+	if err != nil {
+		// TEMP RESPONSE (REMOVE) ----
+		w.Write([]byte("Error repository"))
+	}
 
+	w.Write([]byte(fmt.Sprintf("last id inserted = %d", lastInsertID)))
 }
 
 // UpdateUser updates a specific user information in the database
