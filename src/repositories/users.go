@@ -14,7 +14,8 @@ func NewUserRepo(db *sql.DB) *users {
 	return &users{db}
 }
 
-func (u users) CreateUser(user models.DefaultUser) (uint64, error) {
+// CreateUser inserts a new user in the database
+func (repo users) CreateUser(user models.DefaultUser) (uint64, error) {
 	return 0, nil
 }
 
