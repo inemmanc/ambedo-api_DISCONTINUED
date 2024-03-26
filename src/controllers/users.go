@@ -21,13 +21,13 @@ func FindUser(w http.ResponseWriter, r *http.Request) {
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	requestBody, err := io.ReadAll(r.Body)
 	if err != nil {
-		// TEMP RESPONSENSE (REMOVE) ----
+		// TEMP RESPONSE (REMOVE) ----
 		w.Write([]byte("Error"))
 	}
 
 	var user models.DefaultUser
 	if err := json.Unmarshal(requestBody, &user); err != nil {
-		// TEMP RESPONSENSE (REMOVE) ----
+		// TEMP RESPONSE (REMOVE) ----
 		w.Write([]byte("Error unmarshal"))
 	}
 
