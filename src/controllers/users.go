@@ -5,6 +5,7 @@ import (
 	"ambedo-api/src/models"
 	"ambedo-api/src/repositories"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -23,25 +24,27 @@ func FindUser(w http.ResponseWriter, r *http.Request) {
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	requestBody, err := io.ReadAll(r.Body)
 	if err != nil {
-		// TEMP RESPONSE (REMOVE) ----
-		w.Write([]byte("Error"))
+		return
 	}
 
 	var user models.DefaultUser
 	if err := json.Unmarshal(requestBody, &user); err != nil {
-		// TEMP RESPONSE (REMOVE) ----
-		w.Write([]byte("Error unmarshal"))
+		return
 	}
 
 	db, err := database.Connect()
 	if err != nil {
-		// TEMP RESPONSE (REMOVE) ----
-		w.Write([]byte("Error database"))
+		return
 	}
+	defer db.Close()
 
 	repo := repositories.NewUserRepo(db)
-	repo.CreateUser(user)
+	lastInsertID, err := repo.CreateUser(user)
+	if err != nil {
+		return
+	}
 
+	w.Write([]byte(fmt.Sprintf("last id inserted = %d", lastInsertID)))
 }
 
 // UpdateUser updates a specific user information in the database
