@@ -16,6 +16,7 @@ type DefaultUser struct {
 	JoinedDate time.Time `json:"joinedate,omitempty"`
 }
 
+// Prepare calls methods to validate and format received user
 func (user *DefaultUser) Prepare() error {
 	if err := user.validate(); err != nil {
 		return err
