@@ -8,11 +8,28 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // FindUsers searchs for all users in the database
 func FindUsers(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("searching users func"))
+	nameOrUsername := strings.ToLower(r.URL.Query().Get("user"))
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repo := repositories.NewUserRepo(db)
+	users, err := repo.FindUsers(nameOrUsername)
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	responses.JSON(w, http.StatusOK, users)
+
 }
 
 // FindUser search for a specific user in the database
