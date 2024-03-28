@@ -16,6 +16,7 @@ type DefaultUser struct {
 	JoinedDate time.Time `json:"joinedate,omitempty"`
 }
 
+// Prepare calls methods to validate and format received user
 func (user *DefaultUser) Prepare() error {
 	if err := user.validate(); err != nil {
 		return err
@@ -41,7 +42,7 @@ func (user *DefaultUser) validate() error {
 }
 
 func (user *DefaultUser) format() {
-	user.Username = strings.TrimSpace(user.Username)
+	user.Username = strings.Replace(user.Username, " ", "", -1)
 	user.Name = strings.TrimSpace(user.Name)
 	user.Email = strings.TrimSpace(user.Email)
 }
