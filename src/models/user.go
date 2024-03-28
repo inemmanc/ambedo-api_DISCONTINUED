@@ -42,7 +42,7 @@ func (user *DefaultUser) validate() error {
 }
 
 func (user *DefaultUser) format() {
-	user.Username = strings.TrimSpace(user.Username)
+	user.Username = strings.Replace(user.Username, " ", "", -1)
 	user.Name = strings.TrimSpace(user.Name)
 	user.Email = strings.TrimSpace(user.Email)
 }
