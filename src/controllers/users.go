@@ -29,7 +29,6 @@ func FindUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	responses.JSON(w, http.StatusOK, users)
-
 }
 
 // FindUser search for a specific user in the database

@@ -15,6 +15,7 @@ func NewUserRepo(db *sql.DB) *users {
 	return &users{db}
 }
 
+// FindUsers search for users based on name or username in the database
 func (repo users) FindUsers(nameOrUsername string) ([]models.DefaultUser, error) {
 	nameOrUsername = fmt.Sprintf("%%%s%%", nameOrUsername)
 
