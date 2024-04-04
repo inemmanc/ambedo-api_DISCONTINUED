@@ -6,7 +6,6 @@ import (
 	"ambedo-api/src/repositories"
 	"ambedo-api/src/responses"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -51,10 +50,11 @@ func FindUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repositories := repositories.NewUserRepo(db)
-	
-	// REMOVE -------
-	fmt.Println(repositories)
-	fmt.Println(userID)
+	foundUser, err := repositories.FindUserByID(userID)
+	if err != nil {
+		responses.Error(w, http.StatusNotFound, err)
+	}
+	responses.JSON(w, http.StatusOK, foundUser)
 }
 
 // CreateUser creates a new user into the database
