@@ -47,6 +47,31 @@ func (repo users) FindUsers(nameOrUsername string) ([]models.DefaultUser, error)
 	return users, nil
 }
 
+// FindUserByID returns a user in the database based on their user ID
+func (repo users) FindUserByID(userID uint64) (models.DefaultUser, error) {
+	rows, err := repo.db.Query(
+		"SELECT id, username, name, email, joineddate FROM users WHERE id = ?",
+	)
+	if err != nil {
+		return models.DefaultUser{}, err
+	}
+	defer rows.Close()
+
+	var user models.DefaultUser
+	if rows.Next() {
+		if err := rows.Scan(
+			&user.ID,
+			&user.Username,
+			&user.Name,
+			&user.Email,
+			&user.JoinedDate,
+		); err != nil {
+			return models.DefaultUser{}, err
+		}
+	}
+	return user, nil
+}
+
 // CreateUser inserts a new user in the database
 func (repo users) CreateUser(user models.DefaultUser) (uint64, error) {
 	statement, err := repo.db.Prepare("INSERT INTO users (username, name, email, password) VALUES(?, ?, ?, ?)")
