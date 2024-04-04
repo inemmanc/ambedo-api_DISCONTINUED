@@ -6,9 +6,13 @@ import (
 	"ambedo-api/src/repositories"
 	"ambedo-api/src/responses"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 // FindUsers searchs for all users in the database
@@ -33,7 +37,24 @@ func FindUsers(w http.ResponseWriter, r *http.Request) {
 
 // FindUser search for a specific user in the database
 func FindUser(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("searching a specif user func"))
+	params := mux.Vars(r)
+	userID, err := strconv.ParseUint(params["userID"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	repositories := repositories.NewUserRepo(db)
+	
+	// REMOVE -------
+	fmt.Println(repositories)
+	fmt.Println(userID)
 }
 
 // CreateUser creates a new user into the database
