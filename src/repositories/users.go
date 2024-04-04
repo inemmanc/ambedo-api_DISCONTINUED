@@ -51,6 +51,7 @@ func (repo users) FindUsers(nameOrUsername string) ([]models.DefaultUser, error)
 func (repo users) FindUserByID(userID uint64) (models.DefaultUser, error) {
 	rows, err := repo.db.Query(
 		"SELECT id, username, name, email, joineddate FROM users WHERE id = ?",
+		userID,
 	)
 	if err != nil {
 		return models.DefaultUser{}, err
