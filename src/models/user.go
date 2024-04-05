@@ -1,7 +1,6 @@
 package models
 
 import (
-	"ambedo-api/src/constants"
 	"errors"
 	"strings"
 	"time"
@@ -36,7 +35,7 @@ func (user *DefaultUser) validate(method string) error {
 	if user.Email == "" {
 		return errors.New("o campo Email é obrigatório")
 	}
-	if method == constants.MethodRegister && user.Password == "" {
+	if method == "register" && user.Password == "" {
 		return errors.New("o campo Password é obrigatório")
 	}
 	return nil

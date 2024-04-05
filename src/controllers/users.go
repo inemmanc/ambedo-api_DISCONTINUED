@@ -73,7 +73,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := user.Prepare(constants.MethodRegister); err != nil {
+	if err := user.Prepare(constants.MethodRegisterUser); err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
