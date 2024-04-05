@@ -92,3 +92,20 @@ func (repo users) CreateUser(user models.DefaultUser) (uint64, error) {
 
 	return uint64(lastInsertID), nil
 }
+
+// UpdateUser updates a user's information in the database
+func (repo users) UpdateUser(userID uint64, user models.DefaultUser) error {
+	statement, err := repo.db.Prepare(
+		"UPDATE users SET username = ?, name = ?, email = ? WHERE id = ?",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err := statement.Exec(user.Username, user.Name, user.Email, userID); err != nil {
+		return err
+	}
+
+	return nil
+}

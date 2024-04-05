@@ -126,7 +126,11 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repository := repositories.NewUserRepo(db)
-	err := repository.UpdateUser(userID, user)
+	if err := repository.UpdateUser(userID, user); err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	responses.JSON(w, http.StatusNoContent, nil)
 }
 
 // DeleteUser deletes a specific user information in the database
