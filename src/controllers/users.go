@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"ambedo-api/src/constants"
 	"ambedo-api/src/database"
 	"ambedo-api/src/models"
 	"ambedo-api/src/repositories"
@@ -72,7 +73,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := user.Prepare(); err != nil {
+	if err := user.Prepare(constants.MethodRegister); err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
