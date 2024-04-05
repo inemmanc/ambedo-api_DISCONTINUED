@@ -6,6 +6,7 @@ import (
 	"ambedo-api/src/repositories"
 	"ambedo-api/src/responses"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -95,7 +96,24 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // UpdateUser updates a specific user information in the database
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Updating user func"))
+	params := mux.Vars(r)
+	userID, err := strconv.ParseUint(params["userID"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+	requestBody, err := io.ReadAll(r.Body)
+	if err != nil {
+		responses.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+	var user models.DefaultUser
+	if err := json.Unmarshal(requestBody, &user); err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+	// REMOVE -----
+	fmt.Println(userID)
 }
 
 // DeleteUser deletes a specific user information in the database
