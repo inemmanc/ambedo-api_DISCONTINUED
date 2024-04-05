@@ -109,3 +109,17 @@ func (repo users) UpdateUser(userID uint64, user models.DefaultUser) error {
 
 	return nil
 }
+
+func (repo users) DeleteUser(userID uint64) error {
+	statement, err := repo.db.Prepare("DELETE FROM users WHERE id = ?")
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err := statement.Exec(userID); err != nil {
+		return err
+	}
+
+	return nil
+}
