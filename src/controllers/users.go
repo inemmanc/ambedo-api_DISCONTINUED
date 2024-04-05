@@ -7,7 +7,6 @@ import (
 	"ambedo-api/src/repositories"
 	"ambedo-api/src/responses"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -108,13 +107,26 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		responses.Error(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
 	var user models.DefaultUser
+
 	if err := json.Unmarshal(requestBody, &user); err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
-	// REMOVE -----
-	fmt.Println(userID)
+	if err := user.Prepare(constants.MethodUpdateUser); err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+	db, err := database.Connect()
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repository := repositories.NewUserRepo(db)
+	err := repository.UpdateUser(userID, user)
 }
 
 // DeleteUser deletes a specific user information in the database
