@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"ambedo-api/src/constants"
 	"ambedo-api/src/database"
 	"ambedo-api/src/models"
 	"ambedo-api/src/repositories"
@@ -71,7 +72,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := user.Prepare(); err != nil {
+	if err := user.Prepare(constants.MethodRegisterUser); err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
@@ -95,7 +96,41 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // UpdateUser updates a specific user information in the database
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Updating user func"))
+	params := mux.Vars(r)
+	userID, err := strconv.ParseUint(params["userID"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+	requestBody, err := io.ReadAll(r.Body)
+	if err != nil {
+		responses.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	var user models.DefaultUser
+
+	if err := json.Unmarshal(requestBody, &user); err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+	if err := user.Prepare(constants.MethodUpdateUser); err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+	db, err := database.Connect()
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repository := repositories.NewUserRepo(db)
+	if err := repository.UpdateUser(userID, user); err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	responses.JSON(w, http.StatusNoContent, nil)
 }
 
 // DeleteUser deletes a specific user information in the database
