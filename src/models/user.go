@@ -27,16 +27,16 @@ func (user *DefaultUser) Prepare(method string) error {
 
 func (user *DefaultUser) validate(method string) error {
 	if user.Username == "" {
-		return errors.New("o campo Username é obrigatório")
+		return errors.New("you need to enter a valid Username")
 	}
 	if user.Name == "" {
-		return errors.New("o campo Name é obrigatório")
+		return errors.New("you need to enter a valid Name")
 	}
 	if user.Email == "" {
-		return errors.New("o campo Email é obrigatório")
+		return errors.New("you need to enter a valid Email")
 	}
 	if method == "register" && user.Password == "" {
-		return errors.New("o campo Password é obrigatório")
+		return errors.New("you need to enter a valid Password")
 	}
 	return nil
 }
