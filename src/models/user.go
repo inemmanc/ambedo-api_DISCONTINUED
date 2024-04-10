@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strings"
 	"time"
+
+	"github.com/badoux/checkmail"
 )
 
 // DefaultUser struct represents the default API user model
@@ -35,6 +37,11 @@ func (user *DefaultUser) validate(method string) error {
 	if user.Email == "" {
 		return errors.New("you need to enter a valid Email")
 	}
+
+	if err := checkmail.ValidateFormat(user.Email); err != nil {
+		return errors.New("you inserted a invalid email")
+	}
+
 	if method == "register" && user.Password == "" {
 		return errors.New("you need to enter a valid Password")
 	}
