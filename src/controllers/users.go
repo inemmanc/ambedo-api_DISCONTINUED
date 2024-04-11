@@ -35,7 +35,7 @@ func FindUsers(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, users)
 }
 
-// FindUser search for a specific user in the database
+// FindUser search for a specific user in the database by their ID
 func FindUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userID, err := strconv.ParseUint(params["userID"], 10, 64)

@@ -16,6 +16,7 @@ var (
 	DefaultApiPort = 0
 )
 
+// Load loads all environment variables
 func Load() {
 	var err error
 
