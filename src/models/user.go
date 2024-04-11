@@ -1,6 +1,8 @@
 package models
 
 import (
+	"ambedo-api/src/constants"
+	"ambedo-api/src/security"
 	"errors"
 	"strings"
 	"time"
@@ -23,7 +25,9 @@ func (user *DefaultUser) Prepare(method string) error {
 	if err := user.validate(method); err != nil {
 		return err
 	}
-	user.format()
+	if err := user.format(method); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -48,8 +52,18 @@ func (user *DefaultUser) validate(method string) error {
 	return nil
 }
 
-func (user *DefaultUser) format() {
+func (user *DefaultUser) format(method string) error {
 	user.Username = strings.Replace(user.Username, " ", "", -1)
 	user.Name = strings.TrimSpace(user.Name)
 	user.Email = strings.TrimSpace(user.Email)
+
+	if method == constants.MethodRegisterUser {
+		hashedPassword, err := security.Hash(user.Password)
+		if err != nil {
+			return err
+		}
+		user.Password = string(hashedPassword)
+	}
+
+	return nil
 }
