@@ -18,6 +18,7 @@ type DefaultRoute struct {
 func Configure(r *mux.Router) *mux.Router {
 	var GeneralRoutes []DefaultRoute
 	GeneralRoutes = append(GeneralRoutes, usersRoutes...)
+	GeneralRoutes = append(GeneralRoutes, loginRoute)
 
 	for _, route := range GeneralRoutes {
 		r.HandleFunc(route.URI, route.Function).Methods(route.Method)
