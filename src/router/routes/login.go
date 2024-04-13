@@ -1,10 +1,13 @@
 package routes
 
-import "net/http"
+import (
+	"ambedo-api/src/controllers"
+	"net/http"
+)
 
 var loginRoute = DefaultRoute{
 	URI: "/login",
 	Method: http.MethodPost,
-	Function: func(w http.ResponseWriter, r *http.Request) {},
+	Function: controllers.Login,
 	AuthRequired: false,
 }
