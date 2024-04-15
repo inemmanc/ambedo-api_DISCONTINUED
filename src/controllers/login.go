@@ -5,8 +5,9 @@ import (
 	"ambedo-api/src/models"
 	"ambedo-api/src/repositories"
 	"ambedo-api/src/responses"
+	"ambedo-api/src/security"
 	"encoding/json"
-	"fmt"
+	"errors"
 	"io"
 	"net/http"
 )
@@ -30,8 +31,20 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
+	defer db.Close()
 
 	repository := repositories.NewUserRepo(db)
-	// TEMP -- MISSING repository func 
-	fmt.Println(repository)
+	dbSavedUser, err := repository.FindUserByEmail(user.Email)
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if err := security.VerifyPassword(dbSavedUser.Password, user.Password); err != nil {
+		responses.Error(w, http.StatusUnauthorized, errors.New("unauthorized"))
+		return
+	}
+
+	// TEMP RESPONSE ---- REMOVE
+	w.Write([]byte("Logged"))
 }
