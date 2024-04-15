@@ -124,3 +124,21 @@ func (repo users) DeleteUser(userID uint64) error {
 
 	return nil
 }
+
+// FindUserByEmail search for a user by their email and returns their ID and hased Password
+func (repo users) FindUserByEmail(userEmail string) (models.DefaultUser, error) {
+	row, err := repo.db.Query("SELECT id, password FROM users WHERE email = ?", userEmail)
+	if err != nil {
+		return models.DefaultUser{}, err
+	}
+	defer row.Close()
+
+	var user models.DefaultUser
+	if row.Next() {
+		if err := row.Scan(&user.ID, &user.Password); err != nil {
+			return models.DefaultUser{}, err
+		}
+	}
+
+	return user, nil
+}
