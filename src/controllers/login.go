@@ -40,5 +40,5 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// TEMP RESPONSE --- REMOVE
 	fmt.Println(dbSavedUser)
-
+	
 }
