@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"ambedo-api/src/auth"
 	"ambedo-api/src/database"
 	"ambedo-api/src/models"
 	"ambedo-api/src/repositories"
@@ -46,5 +47,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TEMP RESPONSE ---- REMOVE
-	w.Write([]byte("Logged"))
+	token, _ := auth.CreateToken(user.ID)
+	w.Write([]byte(token))
 }
