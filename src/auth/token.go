@@ -1,13 +1,19 @@
 package auth
 
 import (
+	"time"
+
 	jwt "github.com/golang-jwt/jwt"
 )
 
 func CreateTokne(userID uint64) (string, error) {
 	perms := jwt.MapClaims{}
 	perms["authorized"] = true
+	perms["exp"] = time.Now().Add(time.Hour * 72).Unix()
+	perms["userID"] = userID
 
-	// TEMP RETURN ---- REMOVE
-	return "", nil
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, perms)
+
+	// TEMP SECRET KEY ---- REMOVE
+	return token.SignedString([]byte("Secret"))
 }
