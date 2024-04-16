@@ -6,7 +6,7 @@ import (
 	jwt "github.com/golang-jwt/jwt"
 )
 
-func CreateTokne(userID uint64) (string, error) {
+func CreateToken(userID uint64) (string, error) {
 	perms := jwt.MapClaims{}
 	perms["authorized"] = true
 	perms["exp"] = time.Now().Add(time.Hour * 72).Unix()
