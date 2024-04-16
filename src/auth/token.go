@@ -6,6 +6,7 @@ import (
 	jwt "github.com/golang-jwt/jwt"
 )
 
+// CreateToken returns a signed token with user permissions
 func CreateToken(userID uint64) (string, error) {
 	perms := jwt.MapClaims{}
 	perms["authorized"] = true
