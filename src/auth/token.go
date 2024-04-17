@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"ambedo-api/src/config"
 	"time"
 
 	jwt "github.com/golang-jwt/jwt"
@@ -15,6 +16,5 @@ func CreateToken(userID uint64) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, perms)
 
-	// TEMP SECRET KEY ---- REMOVE
-	return token.SignedString([]byte("Secret"))
+	return token.SignedString([]byte(config.DefaultSecretKey))
 }
