@@ -46,7 +46,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	token, err := auth.CreateToken(user.ID)
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
 	// TEMP RESPONSE ---- REMOVE
-	token, _ := auth.CreateToken(user.ID)
 	w.Write([]byte(token))
 }
