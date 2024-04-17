@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"ambedo-api/src/middlewares"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -21,7 +22,13 @@ func Configure(r *mux.Router) *mux.Router {
 	GeneralRoutes = append(GeneralRoutes, loginRoute)
 
 	for _, route := range GeneralRoutes {
-		r.HandleFunc(route.URI, route.Function).Methods(route.Method)
+
+		if route.AuthRequired {
+			r.HandleFunc(route.URI, middlewares.Authenticate(route.Function)).Methods(route.Method)
+		} else {
+			r.HandleFunc(route.URI, route.Function).Methods(route.Method)
+		}
+
 	}
 
 	return r
