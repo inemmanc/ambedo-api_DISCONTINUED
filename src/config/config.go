@@ -14,6 +14,8 @@ var (
 	DefaultConnectionString = ""
 	// DefaultApiPort is the Default API running Port
 	DefaultApiPort = 0
+	// DefaultSecretKey is the default secret key for Auth token assign
+	DefaultSecretKey []byte
 )
 
 // Load loads all environment variables
@@ -35,4 +37,6 @@ func Load() {
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
 	)
+
+	DefaultSecretKey = []byte(os.Getenv("SECRET_KEY"))
 }
