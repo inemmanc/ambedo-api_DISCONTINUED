@@ -28,15 +28,18 @@ func ValidateToken(r *http.Request) error {
 	tokenString := extractToken(r)
 	token, err := jwt.Parse(tokenString, returnVerificationKey)
 	if err != nil {
-		return errors.New("FODA NE")
-	}
-	if !token.Valid {
-		return fmt.Errorf("invalid Token")
+		// TEMP ---- REMOVE
+		fmt.Printf(" >> invalid token request")
+		return err
 	}
 
-	// TEMP ---- REMOVE RESPONSE
-	fmt.Println(token)
-	return nil
+	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		// TEMP ---- REMOVE
+		fmt.Printf(" %v", token.Claims)
+		return nil
+	}
+
+	return errors.New("invalid token")
 }
 
 func extractToken(r *http.Request) string {
