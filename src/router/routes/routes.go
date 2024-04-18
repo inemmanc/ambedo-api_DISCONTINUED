@@ -24,9 +24,13 @@ func Configure(r *mux.Router) *mux.Router {
 	for _, route := range GeneralRoutes {
 
 		if route.AuthRequired {
-			r.HandleFunc(route.URI, middlewares.Authenticate(route.Function)).Methods(route.Method)
+			r.HandleFunc(route.URI,
+				middlewares.Logger(middlewares.Authenticate(route.Function)),
+			).Methods(route.Method)
 		} else {
-			r.HandleFunc(route.URI, route.Function).Methods(route.Method)
+			r.HandleFunc(route.URI,
+				middlewares.Logger(route.Function),
+			).Methods(route.Method)
 		}
 
 	}
