@@ -3,6 +3,7 @@ package auth
 import (
 	"ambedo-api/src/config"
 	"net/http"
+	"strings"
 	"time"
 
 	jwt "github.com/golang-jwt/jwt"
@@ -23,4 +24,14 @@ func CreateToken(userID uint64) (string, error) {
 // ValidateToken checks whether the received request token is valid
 func ValidateToken(r *http.Request) error {
 	return nil
+}
+
+func extractToken(r *http.Request) string {
+	token := r.Header.Get("Authorization")
+	
+	if len(strings.Split(token, " ")) != 2 {
+		return ""
+	}
+
+	return strings.Split(token, " ")[1]
 }
