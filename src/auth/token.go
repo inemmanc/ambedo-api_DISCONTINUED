@@ -23,6 +23,9 @@ func CreateToken(userID uint64) (string, error) {
 
 // ValidateToken checks whether the received request token is valid
 func ValidateToken(r *http.Request) error {
+	tokenString := extractToken(r)
+	// TEMP ---- NEED KEY FUNC
+	token, err := jwt.Parse(tokenString)
 	return nil
 }
 
@@ -35,3 +38,4 @@ func extractToken(r *http.Request) string {
 
 	return strings.Split(token, " ")[1]
 }
+
