@@ -6,8 +6,8 @@ import (
 )
 
 var loginRoute = DefaultRoute{
-	URI: "/login",
-	Method: http.MethodPost,
-	Function: controllers.Login,
+	URI:          "/login",
+	Method:       http.MethodPost,
+	Function:     controllers.Login,
 	AuthRequired: false,
 }

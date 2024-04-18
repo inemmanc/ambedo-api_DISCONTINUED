@@ -17,7 +17,7 @@ func Logger(next http.HandlerFunc) http.HandlerFunc {
 func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// TEMP RESPONSE ---- REMOVE
-		fmt.Println("VALIDATING ...")
+		fmt.Println(" VALIDATING ...")
 		next(w, r)
 	}
 }
