@@ -2,6 +2,7 @@ package auth
 
 import (
 	"ambedo-api/src/config"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -31,7 +32,7 @@ func ValidateToken(r *http.Request) error {
 
 func extractToken(r *http.Request) string {
 	token := r.Header.Get("Authorization")
-	
+
 	if len(strings.Split(token, " ")) != 2 {
 		return ""
 	}
@@ -40,5 +41,9 @@ func extractToken(r *http.Request) string {
 }
 
 func returnVerificationKey(token *jwt.Token) (interface{}, error) {
-	
+	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+		return nil, fmt.Errorf("unexpect signing method %v", token.Header["alg"])
+	}
+
+	return config.DefaultSecretKey, nil
 }
