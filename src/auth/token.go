@@ -2,6 +2,7 @@ package auth
 
 import (
 	"ambedo-api/src/config"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -26,7 +27,15 @@ func CreateToken(userID uint64) (string, error) {
 func ValidateToken(r *http.Request) error {
 	tokenString := extractToken(r)
 	// TEMP ---- NEED KEY FUNC
-	token, err := jwt.Parse(tokenString)
+	token, err := jwt.Parse(tokenString, returnVerificationKey)
+	if err != nil {
+		return errors.New("FODA NE")
+	}
+	if !token.Valid {
+		return fmt.Errorf("invalid Token")
+	}
+
+	// TEMP ---- REMOVE RESPONSE
 	return nil
 }
 
