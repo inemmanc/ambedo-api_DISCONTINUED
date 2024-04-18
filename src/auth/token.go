@@ -36,6 +36,7 @@ func ValidateToken(r *http.Request) error {
 	}
 
 	// TEMP ---- REMOVE RESPONSE
+	fmt.Println(token)
 	return nil
 }
 
