@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// Logger logs all the request information (Method, URI, Host)
 func Logger(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("\nLOG: %s %s %s", r.Method, r.RequestURI, r.Host)
