@@ -39,3 +39,6 @@ func extractToken(r *http.Request) string {
 	return strings.Split(token, " ")[1]
 }
 
+func returnVerificationKey(token *jwt.Token) (interface{}, error) {
+	
+}
