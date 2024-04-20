@@ -1,12 +1,15 @@
 package controllers
 
 import (
+	"ambedo-api/src/auth"
 	"ambedo-api/src/constants"
 	"ambedo-api/src/database"
 	"ambedo-api/src/models"
 	"ambedo-api/src/repositories"
 	"ambedo-api/src/responses"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -107,6 +110,20 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		responses.Error(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
+	tokenUserID, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.Error(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	if userID != tokenUserID {
+		responses.Error(w, http.StatusForbidden, errors.New("you can only update your information"))
+		return
+	}
+
+	// TEMP ---- temp print
+	fmt.Printf(" userID: %d ", tokenUserID)
 
 	var user models.DefaultUser
 

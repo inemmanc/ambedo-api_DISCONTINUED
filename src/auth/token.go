@@ -54,7 +54,7 @@ func ExtractUserID(r *http.Request) (uint64, error) {
 	}
 
 	if perms, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		userID, err := strconv.ParseUint(perms["userID"].(string), 10, 64)
+		userID, err := strconv.ParseUint(fmt.Sprintf("%.0f", perms["userID"]), 10, 64)
 		if err != nil {
 			return 0, err
 		}
