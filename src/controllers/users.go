@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"ambedo-api/src/auth"
 	"ambedo-api/src/constants"
 	"ambedo-api/src/database"
 	"ambedo-api/src/models"
@@ -107,6 +108,14 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		responses.Error(w, http.StatusUnprocessableEntity, err)
 		return
 	}
+
+	tokenUserID, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.Error(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	
 
 	var user models.DefaultUser
 

@@ -54,6 +54,7 @@ func ExtractUserID(r *http.Request) (uint64, error) {
 	}
 
 	if perms, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		// TEMP ---- perms type assertion
 		userID, err := strconv.ParseUint(perms["userID"].(string), 10, 64)
 		if err != nil {
 			return 0, err
