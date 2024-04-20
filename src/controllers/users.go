@@ -8,6 +8,8 @@ import (
 	"ambedo-api/src/repositories"
 	"ambedo-api/src/responses"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -115,7 +117,13 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	
+	if userID != tokenUserID {
+		responses.Error(w, http.StatusForbidden, errors.New("you can only update your information"))
+		return
+	}
+
+	// TEMP ---- temp print
+	fmt.Printf(" userID: %d ", tokenUserID)
 
 	var user models.DefaultUser
 
