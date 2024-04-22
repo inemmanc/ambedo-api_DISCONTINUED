@@ -36,7 +36,7 @@ func ValidateToken(r *http.Request) error {
 
 	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		// TEMP ---- REMOVE
-		fmt.Printf(" %v", token.Claims)
+		fmt.Printf(" >> %v", token.Claims)
 		return nil
 	}
 
