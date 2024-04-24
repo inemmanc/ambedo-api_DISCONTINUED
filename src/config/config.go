@@ -10,15 +10,15 @@ import (
 )
 
 var (
-	// DefaultConnectionString is the Default API connection String
+	// is the Default API connection String
 	DefaultConnectionString = ""
-	// DefaultApiPort is the Default API running Port
+	// is the Default API running Port
 	DefaultApiPort = 0
-	// DefaultSecretKey is the default secret key for Auth token assign
+	// is the default secret key for Auth token assign
 	DefaultSecretKey []byte
 )
 
-// Load loads all environment variables
+// loads all environment variables
 func Load() {
 	var err error
 
