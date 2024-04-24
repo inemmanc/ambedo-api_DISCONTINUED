@@ -7,7 +7,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// Connect opens the DB connection and returns it
+// opens the DB connection and returns it
 func Connect() (*sql.DB, error) {
 	db, err := sql.Open("mysql", config.DefaultConnectionString)
 	if err != nil {

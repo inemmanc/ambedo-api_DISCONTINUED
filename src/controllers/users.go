@@ -18,7 +18,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// FindUsers searchs for all users in the database
+// searchs for all users in the database
 func FindUsers(w http.ResponseWriter, r *http.Request) {
 	nameOrUsername := strings.ToLower(r.URL.Query().Get("user"))
 
@@ -38,7 +38,7 @@ func FindUsers(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, users)
 }
 
-// FindUser search for a specific user in the database by their ID
+// search for a specific user in the database by their ID
 func FindUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userID, err := strconv.ParseUint(params["userID"], 10, 64)
@@ -61,7 +61,7 @@ func FindUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, foundUser)
 }
 
-// CreateUser creates a new user into the database
+// creates a new user into the database
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	requestBody, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -97,7 +97,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusCreated, lastInsertID)
 }
 
-// UpdateUser updates a specific user information in the database
+// updates a specific user information in the database
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userID, err := strconv.ParseUint(params["userID"], 10, 64)
@@ -150,7 +150,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusNoContent, nil)
 }
 
-// DeleteUser deletes a specific user information in the database
+// deletes a specific user information in the database
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userID, err := strconv.ParseUint(params["userID"], 10, 64)

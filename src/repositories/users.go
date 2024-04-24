@@ -10,12 +10,12 @@ type users struct {
 	db *sql.DB
 }
 
-// NewUserRepo creates a new user repository
+// creates a new user repository
 func NewUserRepo(db *sql.DB) *users {
 	return &users{db}
 }
 
-// FindUsers search for users based on name or username in the database
+// search for users based on name or username in the database
 func (repo users) FindUsers(nameOrUsername string) ([]models.DefaultUser, error) {
 	nameOrUsername = fmt.Sprintf("%%%s%%", nameOrUsername)
 
@@ -47,7 +47,7 @@ func (repo users) FindUsers(nameOrUsername string) ([]models.DefaultUser, error)
 	return users, nil
 }
 
-// FindUserByID returns a user in the database based on their user ID
+// returns a user in the database based on their user ID
 func (repo users) FindUserByID(userID uint64) (models.DefaultUser, error) {
 	rows, err := repo.db.Query(
 		"SELECT id, username, name, email, joineddate FROM users WHERE id = ?",
@@ -73,7 +73,7 @@ func (repo users) FindUserByID(userID uint64) (models.DefaultUser, error) {
 	return user, nil
 }
 
-// CreateUser inserts a new user in the database
+// inserts a new user in the database
 func (repo users) CreateUser(user models.DefaultUser) (uint64, error) {
 	statement, err := repo.db.Prepare("INSERT INTO users (username, name, email, password) VALUES(?, ?, ?, ?)")
 	if err != nil {
@@ -93,7 +93,7 @@ func (repo users) CreateUser(user models.DefaultUser) (uint64, error) {
 	return uint64(lastInsertID), nil
 }
 
-// UpdateUser updates a user's information in the database
+// updates a user's information in the database
 func (repo users) UpdateUser(userID uint64, user models.DefaultUser) error {
 	statement, err := repo.db.Prepare(
 		"UPDATE users SET username = ?, name = ?, email = ? WHERE id = ?",
@@ -110,7 +110,7 @@ func (repo users) UpdateUser(userID uint64, user models.DefaultUser) error {
 	return nil
 }
 
-// DeleteUser deletes a user's information in the database
+// deletes a user's information in the database
 func (repo users) DeleteUser(userID uint64) error {
 	statement, err := repo.db.Prepare("DELETE FROM users WHERE id = ?")
 	if err != nil {
@@ -125,7 +125,7 @@ func (repo users) DeleteUser(userID uint64) error {
 	return nil
 }
 
-// FindUserByEmail search for a user by their email and returns their ID and hased Password
+// search for a user by their email and returns their ID and hased Password
 func (repo users) FindUserByEmail(userEmail string) (models.DefaultUser, error) {
 	row, err := repo.db.Query("SELECT id, password FROM users WHERE email = ?", userEmail)
 	if err != nil {

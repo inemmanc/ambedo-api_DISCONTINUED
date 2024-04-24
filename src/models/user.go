@@ -10,7 +10,7 @@ import (
 	"github.com/badoux/checkmail"
 )
 
-// DefaultUser struct represents the default API user model
+// represents the default API user model
 type DefaultUser struct {
 	ID         uint64    `json:"id,omitempty"`
 	Username   string    `json:"username,omitempty"`

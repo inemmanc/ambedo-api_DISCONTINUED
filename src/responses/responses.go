@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// JSON returns a json response to the request
+// returns a json response to the request
 func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(statusCode)
@@ -18,7 +18,7 @@ func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
 	}
 }
 
-// Error returns a error response to the request
+// returns a error response to the request
 //
 // It uses JSON() to return a error
 func Error(w http.ResponseWriter, statusCode int, err error) {

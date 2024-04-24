@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// DefaultRoute struct represents the Default API route
+// struct represents the Default API route
 type DefaultRoute struct {
 	URI          string
 	Method       string
@@ -15,7 +15,7 @@ type DefaultRoute struct {
 	AuthRequired bool
 }
 
-// Configure takes an empty Router and puts all new routes on it
+// takes an empty Router and puts all new routes on it
 func Configure(r *mux.Router) *mux.Router {
 	var GeneralRoutes []DefaultRoute
 	GeneralRoutes = append(GeneralRoutes, usersRoutes...)

@@ -13,7 +13,7 @@ import (
 	"net/http"
 )
 
-// Login is used for authenticate a user to the API
+// is used for authenticate a user to the API
 func Login(w http.ResponseWriter, r *http.Request) {
 	requestBody, err := io.ReadAll(r.Body)
 	if err != nil {
