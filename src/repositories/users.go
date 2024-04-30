@@ -142,3 +142,18 @@ func (repo users) FindUserByEmail(userEmail string) (models.DefaultUser, error) 
 
 	return user, nil
 }
+
+// allows a user to follow another user
+func (repo users) Follow(userID, followerID uint64) error {
+	statement, err := repo.db.Prepare("INSERT INTO followers (user_id, follower_id) VALUES (?, ?)")
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err := statement.Exec(userID, followerID); err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -185,7 +185,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusNoContent, nil)
 }
 
-// Allows a user to follow another user
+// allows a user to follow another user
 func FollowUser(w http.ResponseWriter, r *http.Request) {
 	followerID, err := auth.ExtractUserID(r)
 	if err != nil {
@@ -213,9 +213,9 @@ func FollowUser(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repository := repositories.NewUserRepo(db)
-	if err := repository.follow(userID, followerID); err != nil {
+	if err := repository.Follow(userID, followerID); err != nil {
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
-	
+
 }
