@@ -212,5 +212,10 @@ func FollowUser(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
+	repository := repositories.NewUserRepo(db)
+	if err := repository.follow(userID, followerID); err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
 	
 }
