@@ -183,5 +183,9 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responses.JSON(w, http.StatusNoContent, nil)
+}
+
+// Allows a user to follow another user
+func FollowUser(w http.ResponseWriter, r *http.Request) {
 
 }
