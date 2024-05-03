@@ -225,7 +225,7 @@ func FollowUser(w http.ResponseWriter, r *http.Request) {
 func UnFollowUser(w http.ResponseWriter, r *http.Request) {
 	followerID, err := auth.ExtractUserID(r)
 	if err != nil {
-		responses.Error(w, http.StatusBadRequest, err)
+		responses.Error(w, http.StatusUnauthorized, err)
 		return
 	}
 
@@ -233,6 +233,11 @@ func UnFollowUser(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.ParseUint(params["userID"], 10, 64)
 	if err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	if userID == followerID {
+		responses.Error(w, http.StatusForbidden, err)
 		return
 	}
 
