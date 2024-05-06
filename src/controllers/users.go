@@ -237,7 +237,7 @@ func UnFollowUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if userID == followerID {
-		responses.Error(w, http.StatusForbidden, err)
+		responses.Error(w, http.StatusForbidden, errors.New("you can not unfollow yourself"))
 		return
 	}
 
