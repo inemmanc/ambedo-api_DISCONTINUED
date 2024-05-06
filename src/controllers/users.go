@@ -249,6 +249,10 @@ func UnFollowUser(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repository := repositories.NewUserRepo(db)
-	// TEMP REMOVE ----
-	fmt.Println(repository, userID, followerID)
+	if err := repository.UnFollow(userID, followerID); err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusNoContent, nil)
 }
