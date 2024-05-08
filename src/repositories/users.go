@@ -182,7 +182,22 @@ func (repo users) SearchFollowers(userID uint64) ([]models.DefaultUser, error) {
 		return []models.DefaultUser{}, err
 	}
 
-	// TEMP RETURN ---- REMOVE
-	fmt.Println(rows)
-	return []models.DefaultUser{}, err
+	var users []models.DefaultUser
+
+	for rows.Next() {
+		var user models.DefaultUser
+
+		if err := rows.Scan(
+			&user.ID,
+			&user.Username,
+			&user.Email,
+			&user.JoinedDate,
+		); err != nil {
+			return nil, err
+		}
+
+		users = append(users, user)
+	}
+
+	return users, nil
 }
