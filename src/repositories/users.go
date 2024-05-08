@@ -172,3 +172,17 @@ func (repo users) UnFollow(userID, followerID uint64) error {
 
 	return nil
 }
+
+// allows a user to see all followers from a specified user
+func (repo users) SearchFollowers(userID uint64) ([]models.DefaultUser, error) {
+	rows, err := repo.db.Query(`
+		SELECT id, username, email, joineddate FROM users INNER JOIN followers ON id = follower_id WHERE user_id = ?
+	`, userID)
+	if err != nil {
+		return []models.DefaultUser{}, err
+	}
+
+	// TEMP RETURN ---- REMOVE
+	fmt.Println(rows)
+	return []models.DefaultUser{}, err
+}

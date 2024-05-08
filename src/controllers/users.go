@@ -273,6 +273,11 @@ func SearchFollowers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repository := repositories.NewUserRepo(db)
-	// TEMP ---- REMOVE
-	fmt.Println(userID, repository)
+	followers, err := repository.SearchFollowers(userID)
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, followers)
 }
