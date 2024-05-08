@@ -172,3 +172,7 @@ func (repo users) UnFollow(userID, followerID uint64) error {
 
 	return nil
 }
+
+func (repo users) SearchFollowers(userID uint64) error {
+	
+} 
